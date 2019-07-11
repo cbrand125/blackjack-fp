@@ -45,13 +45,17 @@ while (continuePlaying) {
   if (isPlayerBusted) {
     console.log('PLAYER BUST! DEALER WINS!');
   } else {
-    while (getHandValue(dealerHand) < 17) {
-      dealerHand = dealCards(dealerHand, getTopCards(gameDeck));
-      console.log(`\nDealer takes a card: ${toString(getTopCards(gameDeck))}`);
-      gameDeck = removeTopCards(gameDeck);
-      console.log("\nDEALER'S HAND");
-      console.log(`${toString(dealerHand)}`);
-      console.log(`Value: ${getHandValue(dealerHand)}\n`);
+    if (!getHandValue(playerHand) === 21) {
+      while (getHandValue(dealerHand) < 17) {
+        dealerHand = dealCards(dealerHand, getTopCards(gameDeck));
+        console.log(
+          `\nDealer takes a card: ${toString(getTopCards(gameDeck))}`
+        );
+        gameDeck = removeTopCards(gameDeck);
+        console.log("\nDEALER'S HAND");
+        console.log(`${toString(dealerHand)}`);
+        console.log(`Value: ${getHandValue(dealerHand)}\n`);
+      }
     }
 
     const isDealerBusted = getHandValue(dealerHand) > 21;
