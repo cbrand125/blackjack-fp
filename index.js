@@ -25,7 +25,7 @@ while (continuePlaying) {
   console.log(`${toString(playerHand)}`);
   console.log(`Value: ${getHandValue(playerHand)}\n`);
 
-  let takeHit = true;
+  let takeHit = getHandValue(playerHand) < 21;
   while (takeHit) {
     takeHit = readlineSync.keyInYNStrict('Would you like to hit?');
     if (takeHit) {
@@ -140,17 +140,28 @@ function dealCards(hand, cards) {
 }
 
 /**
- * calculates the total value of given cards for blackjack scoring
+ * calculates the highest possible total value of given cards without busting
  * @param {[{string,string}]} cards array of tuples representing cards
  * @return {number} the total value of given cards in the game of blackjack
  */
 function getHandValue(cards) {
-  return cards.reduce((total, card) => {
+  let aceCount = 0;
+  let handValue = cards.reduce((total, card) => {
     const rankVal = parseInt(card.rank);
     if (rankVal) return total + rankVal;
-    if (card.rank === 'A') return total + 11;
+    if (card.rank === 'A') {
+      aceCount += 1;
+      return total + 11;
+    }
     return total + 10;
   }, 0);
+
+  while (handValue > 21 && aceCount > 0) {
+    handValue -= 10;
+    aceCount -= 1;
+  }
+
+  return handValue;
 }
 
 /**
