@@ -18,12 +18,10 @@ while (continuePlaying) {
   console.log(`===================\n\n`);
 
   console.log("DEALER'S HAND");
-  console.log(`${toString(dealerHand)}`);
-  console.log(`Value: ${getHandValue(dealerHand)}\n`);
+  printHand(dealerHand);
 
   console.log("PLAYER'S HAND");
-  console.log(`${toString(playerHand)}`);
-  console.log(`Value: ${getHandValue(playerHand)}\n`);
+  printHand(playerHand);
 
   let takeHit = getHandValue(playerHand) < 21;
   while (takeHit) {
@@ -33,8 +31,7 @@ while (continuePlaying) {
       console.log(`\nPlayer takes a card: ${toString(getTopCards(gameDeck))}`);
       gameDeck = removeTopCards(gameDeck);
       console.log("\nPLAYER'S HAND");
-      console.log(`${toString(playerHand)}`);
-      console.log(`Value: ${getHandValue(playerHand)}\n`);
+      printHand(playerHand);
     }
     if (getHandValue(playerHand) >= 21) {
       takeHit = false;
@@ -51,8 +48,7 @@ while (continuePlaying) {
         console.log(`\nDealer takes a card: ${toString(getTopCards(gameDeck))}`);
         gameDeck = removeTopCards(gameDeck);
         console.log("\nDEALER'S HAND");
-        console.log(`${toString(dealerHand)}`);
-        console.log(`Value: ${getHandValue(dealerHand)}\n`);
+        printHand(dealerHand);
       }
     }
 
@@ -165,4 +161,13 @@ function toString(cards) {
     const coloredCard = suit === '♦' || suit === '♥' ? `${RED}${rank}${suit}${RESET}` : `${rank}${suit}`;
     return `${accum}${coloredCard} `;
   }, '');
+}
+
+/**
+ * Prepares a console.log statement for displaying the cards in the hand and the value of the hand
+ * @param {[{string, string}]} hand array of tuples representing a hand of cards
+ * @return {function} - console.log for the given hand
+ */
+function printHand(hand) {
+  return console.log(`${toString(hand)}\nValue: ${getHandValue(hand)}\n`);
 }
