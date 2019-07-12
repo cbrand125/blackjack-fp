@@ -164,10 +164,9 @@ function toString(cards) {
 }
 
 /**
- * Prepares a console.log statement for displaying the cards in the hand and the value of the hand
+ * Displays the cards in the hand and the value of the hand
  * @param {[{string, string}]} hand array of tuples representing a hand of cards
- * @return {function} - console.log for the given hand
  */
 function printHand(hand) {
-  return console.log(`${toString(hand)}\nValue: ${getHandValue(hand)}\n`);
+  console.log(`${toString(hand)}\nValue: ${getHandValue(hand)}\n`);
 }
