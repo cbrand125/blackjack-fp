@@ -15,22 +15,23 @@ while (continuePlaying) {
 
   console.clear();
   console.log(`♣♥♦♠ WHACKJACK ♠♦♥♣`);
-  console.log(`===================\n\n`);
+  console.log(`===================\n`);
 
   console.log("DEALER'S HAND");
-  printHand(dealerHand);
+  printHand(dealerHand, true);
 
   console.log("PLAYER'S HAND");
   printHand(playerHand);
 
   let takeHit = getHandValue(playerHand) < 21;
+  const naturalBlackjack = getHandValue(playerHand) === 21;
   while (takeHit) {
     takeHit = readlineSync.keyInYNStrict('Would you like to hit?');
     if (takeHit) {
       playerHand = dealCards(playerHand, getTopCards(gameDeck));
       console.log(`\nPlayer takes a card: ${toString(getTopCards(gameDeck))}`);
       gameDeck = removeTopCards(gameDeck);
-      console.log("\nPLAYER'S HAND");
+      console.log("PLAYER'S HAND");
       printHand(playerHand);
     }
     if (getHandValue(playerHand) >= 21) {
@@ -42,14 +43,23 @@ while (continuePlaying) {
   if (isPlayerBusted) {
     console.log('PLAYER BUST! DEALER WINS!');
   } else {
-    if (!getHandValue(playerHand) === 21) {
+    let didDealerDraw = false;
+    if (!naturalBlackjack) {
       while (getHandValue(dealerHand) < 17) {
+        didDealerDraw = true;
         dealerHand = dealCards(dealerHand, getTopCards(gameDeck));
-        console.log(`\nDealer takes a card: ${toString(getTopCards(gameDeck))}`);
+        console.log(
+          `\nDealer takes a card: ${toString(getTopCards(gameDeck))}`
+        );
         gameDeck = removeTopCards(gameDeck);
-        console.log("\nDEALER'S HAND");
+        console.log("DEALER'S HAND");
         printHand(dealerHand);
       }
+    }
+
+    if (!didDealerDraw) {
+      console.log("\nDEALER'S HAND");
+      printHand(dealerHand);
     }
 
     const isDealerBusted = getHandValue(dealerHand) > 21;
@@ -60,11 +70,13 @@ while (continuePlaying) {
     } else if (getHandValue(playerHand) < getHandValue(dealerHand)) {
       console.log('DEALER WINS!');
     } else {
-      console.log("IT'S A DRAW");
+      console.log("IT'S A PUSH!");
     }
   }
 
-  continuePlaying = readlineSync.keyInYNStrict('Would you like to play again?');
+  continuePlaying = readlineSync.keyInYNStrict(
+    '\nWould you like to play again?'
+  );
 }
 
 /**
@@ -72,7 +84,21 @@ while (continuePlaying) {
  * @return {[{string,string}]} an array of tuples representing an unshuffled classic deck of cards
  */
 function generateDeck() {
-  const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+  const ranks = [
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    'J',
+    'Q',
+    'K',
+    'A'
+  ];
   const suits = ['♠', '♦', '♥', '♣'];
 
   // populate deck by creating a card for each combination of rank and suit
@@ -158,7 +184,10 @@ function toString(cards) {
     const RED = '\x1b[31m';
     const RESET = '\x1b[0m';
 
-    const coloredCard = suit === '♦' || suit === '♥' ? `${RED}${rank}${suit}${RESET}` : `${rank}${suit}`;
+    const coloredCard =
+      suit === '♦' || suit === '♥'
+        ? `${RED}${rank}${suit}${RESET}`
+        : `${rank}${suit}`;
     return `${accum}${coloredCard} `;
   }, '');
 }
@@ -167,6 +196,14 @@ function toString(cards) {
  * Displays the cards in the hand and the value of the hand
  * @param {[{string, string}]} hand array of tuples representing a hand of cards
  */
-function printHand(hand) {
-  console.log(`${toString(hand)}\nValue: ${getHandValue(hand)}\n`);
+function printHand(hand, hideFirst = false) {
+  if (hideFirst) {
+    console.log(
+      `?? ${toString(hand.slice(1, hand.length))}\nValue: ? + ${getHandValue(
+        hand.slice(1, hand.length)
+      )}\n`
+    );
+  } else {
+    console.log(`${toString(hand)}\nValue: ${getHandValue(hand)}\n`);
+  }
 }
