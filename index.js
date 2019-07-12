@@ -48,9 +48,7 @@ while (continuePlaying) {
     if (!getHandValue(playerHand) === 21) {
       while (getHandValue(dealerHand) < 17) {
         dealerHand = dealCards(dealerHand, getTopCards(gameDeck));
-        console.log(
-          `\nDealer takes a card: ${toString(getTopCards(gameDeck))}`
-        );
+        console.log(`\nDealer takes a card: ${toString(getTopCards(gameDeck))}`);
         gameDeck = removeTopCards(gameDeck);
         console.log("\nDEALER'S HAND");
         console.log(`${toString(dealerHand)}`);
@@ -78,21 +76,7 @@ while (continuePlaying) {
  * @return {[{string,string}]} an array of tuples representing an unshuffled classic deck of cards
  */
 function generateDeck() {
-  const ranks = [
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    'J',
-    'Q',
-    'K',
-    'A'
-  ];
+  const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
   const suits = ['♠', '♦', '♥', '♣'];
 
   // populate deck by creating a card for each combination of rank and suit
@@ -174,5 +158,11 @@ function getHandValue(cards) {
  * @return {string} a printable string representation of the given array of card representations
  */
 function toString(cards) {
-  return cards.map(card => `${card.rank}${card.suit}`).join(' ');
+  return cards.reduce((accum, { rank, suit }) => {
+    const RED = '\x1b[31m';
+    const RESET = '\x1b[0m';
+
+    const coloredCard = suit === '♦' || suit === '♥' ? `${RED}${rank}${suit}${RESET}` : `${rank}${suit}`;
+    return `${accum}${coloredCard} `;
+  }, '');
 }
