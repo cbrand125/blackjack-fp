@@ -195,6 +195,7 @@ function toString(cards) {
 /**
  * Displays the cards in the hand and the value of the hand
  * @param {[{string, string}]} hand array of tuples representing a hand of cards
+ * @param {boolean} hideFirst decides if the first card of the hand should be hidden
  */
 function printHand(hand, hideFirst = false) {
   if (hideFirst) {
