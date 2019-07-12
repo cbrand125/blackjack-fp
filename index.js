@@ -43,23 +43,17 @@ while (continuePlaying) {
   if (isPlayerBusted) {
     console.log('☹ PLAYER BUST! DEALER WINS! ☹');
   } else {
-    let didDealerDraw = false;
+    console.log("\nDEALER'S HAND");
+    printHand(dealerHand);
+
     if (!naturalBlackjack) {
       while (getHandValue(dealerHand) < 17) {
-        didDealerDraw = true;
         dealerHand = dealCards(dealerHand, getTopCards(gameDeck));
-        console.log(
-          `\nDealer takes a card: ${toString(getTopCards(gameDeck))}`
-        );
+        console.log(`Dealer takes a card: ${toString(getTopCards(gameDeck))}`);
         gameDeck = removeTopCards(gameDeck);
         console.log("DEALER'S HAND");
         printHand(dealerHand);
       }
-    }
-
-    if (!didDealerDraw) {
-      console.log("\nDEALER'S HAND");
-      printHand(dealerHand);
     }
 
     const isDealerBusted = getHandValue(dealerHand) > 21;
@@ -180,7 +174,7 @@ function getHandValue(cards) {
  * @return {string} a printable string representation of the given array of card representations
  */
 function toString(cards) {
-  return cards.reduce((accum, { rank, suit }) => {
+  return cards.reduce((accum, { suit, rank }) => {
     const RED = '\x1b[31m';
     const RESET = '\x1b[0m';
 
