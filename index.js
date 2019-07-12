@@ -41,7 +41,7 @@ while (continuePlaying) {
 
   const isPlayerBusted = getHandValue(playerHand) > 21;
   if (isPlayerBusted) {
-    console.log('☹ PLAYER BUST! DEALER WINS! ☹');
+    console.log('☹  PLAYER BUST! DEALER WINS! ☹');
   } else {
     console.log("\nDEALER'S HAND");
     console.log(getHandDisplay(dealerHand));
@@ -62,7 +62,7 @@ while (continuePlaying) {
     } else if (getHandValue(playerHand) > getHandValue(dealerHand)) {
       console.log('*~*~*~*~* PLAYER WINS! *~*~*~*~*');
     } else if (getHandValue(playerHand) < getHandValue(dealerHand)) {
-      console.log('☹ DEALER WINS! ☹');
+      console.log('☹  DEALER WINS! ☹');
     } else {
       console.log("IT'S A PUSH!");
     }
