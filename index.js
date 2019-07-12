@@ -23,8 +23,8 @@ while (continuePlaying) {
   console.log("PLAYER'S HAND");
   printHand(playerHand);
 
-  let takeHit = getHandValue(playerHand) < 21;
   const naturalBlackjack = getHandValue(playerHand) === 21;
+  let takeHit = !naturalBlackjack;
   while (takeHit) {
     takeHit = readlineSync.keyInYNStrict('Would you like to hit?');
     if (takeHit) {
