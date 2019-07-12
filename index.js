@@ -41,7 +41,7 @@ while (continuePlaying) {
 
   const isPlayerBusted = getHandValue(playerHand) > 21;
   if (isPlayerBusted) {
-    console.log('PLAYER BUST! DEALER WINS!');
+    console.log('☹ PLAYER BUST! DEALER WINS! ☹');
   } else {
     let didDealerDraw = false;
     if (!naturalBlackjack) {
@@ -64,11 +64,11 @@ while (continuePlaying) {
 
     const isDealerBusted = getHandValue(dealerHand) > 21;
     if (isDealerBusted) {
-      console.log('DEALER BUST! PLAYER WINS!');
+      console.log('*~*~*~*~* DEALER BUST! PLAYER WINS! *~*~*~*~*');
     } else if (getHandValue(playerHand) > getHandValue(dealerHand)) {
-      console.log('PLAYER WINS!');
+      console.log('*~*~*~*~* PLAYER WINS! *~*~*~*~*');
     } else if (getHandValue(playerHand) < getHandValue(dealerHand)) {
-      console.log('DEALER WINS!');
+      console.log('☹ DEALER WINS! ☹');
     } else {
       console.log("IT'S A PUSH!");
     }
